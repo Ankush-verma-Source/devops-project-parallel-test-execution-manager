@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Ankush-verma-Source/devops-project-parallel-test-execution-manager.git'
-            }
-        }
-
         stage('Start Selenium Grid') {
             steps {
                 bat 'docker compose -f infrastructure/docker/docker-compose.yml up -d'
