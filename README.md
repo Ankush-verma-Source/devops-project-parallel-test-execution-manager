@@ -362,3 +362,145 @@ The **Parallel Test Execution Manager** demonstrates how DevOps tools automate t
 Using Jenkins, Docker, and Selenium Grid enables scalable and faster test execution.
 
 ---
+---
+
+# CI/CD Pipeline Flow
+
+The CI/CD pipeline automates the process of building, testing, and executing Selenium tests.
+
+```
+GitHub Push
+     |
+     v
+Jenkins Pipeline Trigger
+     |
+     |---- Stage 1: Start Selenium Grid
+     |       Docker containers start
+     |
+     |---- Stage 2: Run Maven Tests
+     |       Selenium tests execute in parallel
+     |
+     |---- Stage 3: Generate Test Reports
+     |       Jenkins collects surefire reports
+     |
+     |---- Stage 4: Stop Selenium Grid
+     |       Docker containers are stopped
+```
+
+This pipeline ensures that every code update automatically triggers test execution.
+
+---
+
+# Architecture Diagram
+
+The architecture of the system is shown below.
+
+```
++-------------+
+|  Developer  |
++-------------+
+       |
+       | Push Code
+       v
++-------------+
+|   GitHub    |
++-------------+
+       |
+       | Webhook Trigger
+       v
++-------------+
+|   Jenkins   |
+|   Pipeline  |
++-------------+
+       |
+       | Start Selenium Grid
+       v
++----------------------+
+|  Docker Containers   |
+|  Selenium Hub        |
+|  Chrome Node         |
++----------------------+
+       |
+       | Execute Tests
+       v
++----------------------+
+| Parallel Test Runs   |
+| Login Test           |
+| Search Test          |
+| Checkout Test        |
++----------------------+
+       |
+       | Generate Reports
+       v
++----------------------+
+| Jenkins Test Report  |
++----------------------+
+```
+
+This architecture enables scalable parallel test execution.
+
+---
+
+# Screenshots
+
+Below are example screenshots demonstrating the working project.
+
+## Jenkins Pipeline Success
+
+Add your Jenkins build success screenshot here.
+
+```
+screenshots/jenkins-build-success.png
+```
+
+---
+
+## Jenkins Test Results
+
+Screenshot showing Jenkins test results.
+
+```
+screenshots/jenkins-test-results.png
+```
+
+---
+
+## Docker Containers Running
+
+Screenshot showing Selenium Grid containers.
+
+```
+screenshots/docker-containers-running.png
+```
+
+You can capture this using:
+
+```
+docker ps
+```
+
+---
+
+# Test Execution Proof
+
+Example console output confirming parallel execution.
+
+```
+Running Search Test on Thread: TestNG-test-Parallel Tests-1
+Running Checkout Test on Thread: TestNG-test-Parallel Tests-2
+```
+
+This confirms that Selenium tests are executed **in parallel threads using TestNG**.
+
+---
+
+# Performance Benefit
+
+| Execution Type | Time |
+|----------------|------|
+| Sequential Execution | Higher |
+| Parallel Execution | Reduced |
+
+Parallel execution significantly reduces total testing time.
+
+---
