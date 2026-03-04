@@ -5,19 +5,19 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/your-username/parallel-test-execution-manager.git'
+                git 'https://github.com/Ankush-verma-Source/devops-project-parallel-test-execution-manager.git'
             }
         }
 
         stage('Build Maven Project') {
             steps {
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
 
         stage('Run Selenium Grid with Docker') {
             steps {
-                sh 'docker compose -f infrastructure/docker/docker-compose.yml up --build'
+                bat 'docker compose -f infrastructure/docker/docker-compose.yml up --build'
             }
         }
 
