@@ -2,7 +2,6 @@ services:
 
   selenium-hub:
     image: selenium/hub:4.21.0
-    container_name: selenium-hub
     ports:
       - "4444:4444"
 
@@ -22,4 +21,3 @@ services:
     depends_on:
       - selenium-hub
       - chrome
-    command: mvn test

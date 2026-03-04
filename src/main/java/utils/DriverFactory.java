@@ -1,37 +1,36 @@
 package utils;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import io.github.bonigarcia.wdm.WebDriverManager;
+
+import java.net.URL;
 
 public class DriverFactory {
 
-    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    public static WebDriver driver;
 
     public static WebDriver initDriver() {
+        try {
 
-        WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
+            driver = new RemoteWebDriver(
+                    new URL("http://selenium-hub:4444/wd/hub"),
+                    options
+            );
 
-        driver.set(new ChromeDriver(options));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return getDriver();
+        return driver;
     }
 
     public static WebDriver getDriver() {
-        return driver.get();
-    }
-
-    public static void quitDriver() {
-
-        if (driver.get() != null) {
-            driver.get().quit();
-            driver.remove();
-        }
+        return driver;
     }
 }
