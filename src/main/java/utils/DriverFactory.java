@@ -7,35 +7,31 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
 
-    private static WebDriver driver;
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static WebDriver initDriver() {
 
-        if (driver == null) {
+        WebDriverManager.chromedriver().setup();
 
-            WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
 
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
+        driver.set(new ChromeDriver(options));
 
-            driver = new ChromeDriver(options);
-        }
-
-        return driver;
+        return getDriver();
     }
 
-    // THIS METHOD FIXES YOUR ERROR
     public static WebDriver getDriver() {
-        return driver;
+        return driver.get();
     }
 
     public static void quitDriver() {
 
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        if (driver.get() != null) {
+            driver.get().quit();
+            driver.remove();
         }
     }
 }
