@@ -1,45 +1,38 @@
 package utils;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
-import java.net.URL;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
 
-    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static WebDriver driver;
 
-    public static WebDriver getDriver() {
-        return driver.get();
-    }
+    public static WebDriver initDriver() {
 
-    public static void initDriver() {
+        if (driver == null) {
 
-        try {
+            WebDriverManager.chromedriver().setup();
 
             ChromeOptions options = new ChromeOptions();
+
+            // Required for Jenkins / Docker
+            options.addArguments("--headless");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
 
-            WebDriver webDriver = new RemoteWebDriver(
-                    new URL("http://selenium-hub:4444/wd/hub"),
-                    options
-            );
-
-            driver.set(webDriver);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            driver = new ChromeDriver(options);
         }
+
+        return driver;
     }
 
     public static void quitDriver() {
 
-        if (driver.get() != null) {
-            driver.get().quit();
-            driver.remove();
+        if (driver != null) {
+            driver.quit();
+            driver = null;
         }
-
     }
 }
