@@ -16,11 +16,14 @@ pipeline {
             }
         }
 
-        stage('Run Selenium Grid with Docker') {
+       stage('Run Selenium Grid with Docker') {
             steps {
-                bat 'docker compose -f infrastructure/docker/docker-compose.yml up --build'
-            }
-        }
+            bat '''
+                docker compose -f infrastructure/docker/docker-compose.yml up --build --abort-on-container-exit
+                docker compose -f infrastructure/docker/docker-compose.yml down
+            '''
+    }
+}
 
     }
 }
