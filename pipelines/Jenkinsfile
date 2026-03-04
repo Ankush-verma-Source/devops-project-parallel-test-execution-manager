@@ -3,27 +3,29 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/Ankush-verma-Source/devops-project-parallel-test-execution-manager.git'
+                git 'https://github.com/Ankush-verma-Source/devops-project-parallel-test-execution-manager.git'
             }
         }
 
-        stage('Build Maven Project') {
+        stage('Start Selenium Grid') {
             steps {
-                bat 'mvn clean install'
+                bat 'docker compose -f infrastructure/docker/docker-compose.yml up -d'
             }
         }
 
-       stage('Run Selenium Grid with Docker') {
+        stage('Run Tests') {
             steps {
-            bat '''
-                docker compose -f infrastructure/docker/docker-compose.yml up --build --abort-on-container-exit
-                docker compose -f infrastructure/docker/docker-compose.yml down
-            '''
-    }
-}
+                bat 'mvn clean test'
+            }
+        }
+
+        stage('Stop Selenium Grid') {
+            steps {
+                bat 'docker compose -f infrastructure/docker/docker-compose.yml down'
+            }
+        }
 
     }
 }
