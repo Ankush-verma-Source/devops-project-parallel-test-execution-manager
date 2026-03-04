@@ -8,9 +8,10 @@ import java.net.URL;
 
 public class DriverFactory {
 
-    public static WebDriver driver;
+    private static WebDriver driver;
 
     public static WebDriver initDriver() {
+
         try {
 
             ChromeOptions options = new ChromeOptions();
@@ -32,5 +33,12 @@ public class DriverFactory {
 
     public static WebDriver getDriver() {
         return driver;
+    }
+
+    // 🔹 ADD THIS METHOD (THIS IS THE FIX)
+    public static void quitDriver() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
