@@ -5,7 +5,8 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Ankush-verma-Source/devops-project-parallel-test-execution-manager.git'
+                git branch: 'main',
+                url: 'https://github.com/Ankush-verma-Source/devops-project-parallel-test-execution-manager.git'
             }
         }
 
