@@ -20,7 +20,7 @@ public class DriverFactory {
             options.addArguments("--disable-dev-shm-usage");
 
             driver = new RemoteWebDriver(
-                    new URL("http://selenium-hub:4444/wd/hub"),
+                    new URL("http://localhost:4444/wd/hub"), // FIXED
                     options
             );
 
@@ -35,7 +35,6 @@ public class DriverFactory {
         return driver;
     }
 
-    // 🔹 ADD THIS METHOD (THIS IS THE FIX)
     public static void quitDriver() {
         if (driver != null) {
             driver.quit();
