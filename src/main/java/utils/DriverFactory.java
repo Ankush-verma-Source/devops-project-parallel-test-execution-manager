@@ -16,8 +16,6 @@ public class DriverFactory {
             WebDriverManager.chromedriver().setup();
 
             ChromeOptions options = new ChromeOptions();
-
-            // Required for Jenkins / Docker
             options.addArguments("--headless");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
@@ -25,6 +23,11 @@ public class DriverFactory {
             driver = new ChromeDriver(options);
         }
 
+        return driver;
+    }
+
+    // THIS METHOD FIXES YOUR ERROR
+    public static WebDriver getDriver() {
         return driver;
     }
 
