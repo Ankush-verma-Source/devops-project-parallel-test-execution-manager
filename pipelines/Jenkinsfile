@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/your-username/parallel-test-execution-manager.git'
+            }
+        }
+
+        stage('Build Maven Project') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Run Selenium Grid with Docker') {
+            steps {
+                sh 'docker compose -f infrastructure/docker/docker-compose.yml up --build'
+            }
+        }
+
+    }
+}
